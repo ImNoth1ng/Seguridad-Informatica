@@ -1,0 +1,19 @@
+{
+	"routes": [
+		{
+			"method": "POST",
+			"url": "/new-email/",
+			"owner": "controller_emails"
+		},
+		{
+			"method": "POST",
+			"url": "/www_gate/",
+			"owner": "controller_index"
+		},
+		{
+			"method": "GET",
+			"url": "/",
+			"owner": "controller_index"
+		}
+	]
+}

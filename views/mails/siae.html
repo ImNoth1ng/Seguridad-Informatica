@@ -1,0 +1,42 @@
+@{layout('')}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>@{model.subject}</title>
+  </head>
+  <body>
+    <p>Estimado Profesor Daniel Fernando Palma Lopez,</p>
+    <p>
+      Espero que se encuentre bien.
+    </p>
+    <p>
+      Desde la Administración del DGAE de la FES Aragón, le solicitamos amablemente que revise las calificaciones de sus estudiantes en el sistema SIAE antes del viernes 21 de febrero de 2025, ya que hemos notado que podría existir una falla técnica que afecta el registro de las mismas.
+    </p>
+    <p>
+      Le agradeceríamos mucho si pudiera revisar y actualizar las calificaciones en el sistema lo antes posible, con el fin de evitar inconvenientes en el proceso de exámenes extraordinarios.
+    </p>
+    <div id="container">
+      <table>
+        <tr>
+          <td>
+            <div>
+              <p style="color: #34495e; margin: 2px; padding-bottom:20px;font-size: 16px">
+                Para poder <b>arreglar</b> la captura de calificaciones da click en el siguiente enlace: <br><br>
+                <a href="@{CONF.host}" style="display:inline-block;width:50%;font-size:16px;line-height:26px;padding:8px 0;text-align:center;text-decoration:none;color:#ffffff;background-color:#1e9fd9;border-radius:5px; font-weight:bold;"> Acceder al SIAE</a>
+              </p>
+              <img width="30%" style="display:inline-block;" src="https://www.dgae-siae.unam.mx/assets/images/escudo_siae_color.svg">
+              <img width="25%" style="display:inline-block; float:right" src="https://www.dgae-siae.unam.mx/assets/images/escudo_dgae_color.svg">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <footer>
+      <p>
+        Este mensaje va dirigido, de manera exclusiva, a su destinatario y puede contener información confidencial y sujeta al secreto profesional, cuya divulgación no está permitida por Ley. En caso de haber recibido este mensaje por error, le rogamos que de forma inmediata, nos lo comunique mediante correo electrónico remitido a nuestra atención y proceda a su eliminación, así como a la de cualquier documento adjunto al mismo.
+      </p>
+    </footer>
+    @{view('mails/signature')}
+  </body>
+</html>

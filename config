@@ -1,0 +1,4 @@
+mail_smtp                       : localhost
+mail_smtp_options               : {"secure":false,"port":1025,"user":"aaaa","password":"aaaa","timeout":10000}
+mail_address_from               : ss.dgae@aragon.unam.mx
+host                            : http://localhost:4444
