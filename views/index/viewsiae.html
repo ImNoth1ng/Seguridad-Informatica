@@ -1,0 +1,94 @@
+@{layout('')}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM / DGAE / SIAE ~ Sistema Integral de Administración Escolar</title>
+    <script type="text/javascript">if (self!= top) top.location.href = self.location.href;</script>
+    <script type="text/javascript" src="/script.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/font-awesome.css">
+</head>
+<body id="inicio" cz-shortcut-listen="true">
+
+<div class="wrapper">
+
+  <div class="container">
+
+    <div class="divForma">
+
+
+      <div class="home">
+
+        <a href="index.html"><i class="fa fa-home invert" aria-hidden="true"></i></a>
+
+      </div>
+
+      <div class="help-tip">
+          <p align="justify">Para acceder como <b>Académico</b>, en el nombre de <b>Usuario</b> digite su <b>RFC</b> con homoclave y en <b>NIP</b> el que le fue proporcionado en su carta o tríptico.<br><br>
+
+          Para acceder como <b>Alumno</b>, en el nombre de <b>Usuario</b> digite su <b>Número de Cuenta</b> agregue un <b>cero</b> en la parte más significativa si su generación es menor al 2000, además omita el guión que separa al dígito
+          verificador. Por ejemplo para el número de cuenta <b>9025888-5</b> se tendría que
+          escribir en número <b>090258885</b> en la casilla respectiva.<br><br>
+
+          Si es alumno y aún no ha realizado cambio de <b>NIP</b>, éste corresponde a su fecha de nacimiento y tiene el siguiente formato: <b><i>ddmmaaaa</i></b>; en donde la fecha de nacimiento es el 22 de septiembre de 1974, el nip sería: <b>22091974</b>.</p>
+      </div>
+
+      <h1>Bienvenido al SIAE</h1>
+
+        <form class="form" action="www_gate" method="post" id="frm">
+          <input type="hidden" name="acc" value="aut">
+          <input type="text" name="usr_logi" maxlength="13" placeholder="Usuario" value="">
+          <input type="password" name="usr_pass" maxlength="10" placeholder="NIP">
+
+          <img class="captcha" src="/captcha.png" title="Digita el resultado de la operación.">
+          <input type="text" id="captcha" name="captcha" maxlength="10" placeholder="Captcha"><br>
+
+          <button type="submit" id="login-button">Acceder</button>
+
+        </form>
+
+
+    </div>
+
+  </div>
+
+  <ul class="bg-bubbles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+
+	<script type="text/javascript">
+
+	$(document).ready(function() {
+
+	  $("#login-button").click(function(event){
+
+	     //event.preventDefault();
+
+	     $('form').fadeOut(500);
+       $('.container h1').fadeOut(500);
+	     $('.wrapper').addClass('form-success');
+
+	  });
+
+    $("input:password").focus(function(event){
+       $('.mensaje').html('');
+    });
+
+	});
+
+	</script>
+
+</body>
+</html>

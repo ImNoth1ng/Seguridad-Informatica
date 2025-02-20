@@ -14,6 +14,11 @@
 			"method": "GET",
 			"url": "/",
 			"owner": "controller_index"
+		},
+		{
+			"method": "GET",
+			"url": "/siae/",
+			"owner": "controller_index"
 		}
 	]
 }
