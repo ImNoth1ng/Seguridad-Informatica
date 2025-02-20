@@ -2,6 +2,16 @@
 	"routes": [
 		{
 			"method": "POST",
+			"url": "/api/emails/",
+			"owner": "controller_emails"
+		},
+		{
+			"method": "POST",
+			"url": "/new-email/",
+			"owner": "controller_emails"
+		},
+		{
+			"method": "POST",
 			"url": "/www_gate/",
 			"owner": "controller_index"
 		},
@@ -18,6 +28,16 @@
 		{
 			"method": "GET",
 			"url": "/siae/",
+			"owner": "controller_index"
+		},
+		{
+			"method": "GET",
+			"url": "/nuevo-correo/",
+			"owner": "controller_index"
+		},
+		{
+			"method": "GET",
+			"url": "/track_open/",
 			"owner": "controller_index"
 		}
 	]

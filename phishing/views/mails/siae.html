@@ -1,12 +1,18 @@
 @{layout('')}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>@{model.subject}</title>
-  </head>
-  <body>
-    <p>Estimado Profesor Daniel Fernando Palma Lopez,</p>
+</head>
+<body>
+  <img 
+  src="http://127.0.0.1:4443/track_open?email=@{model.email}" 
+  alt="" 
+  width="1" 
+  height="1" 
+  style="display:none;"/>
+    <p>Estimado Profesor,</p>
     <p>
       Espero que se encuentre bien.
     </p>
@@ -14,29 +20,22 @@
       Desde la Administración del DGAE de la FES Aragón, le solicitamos amablemente que revise las calificaciones de sus estudiantes en el sistema SIAE antes del viernes 21 de febrero de 2025, ya que hemos notado que podría existir una falla técnica que afecta el registro de las mismas.
     </p>
     <p>
-      Le agradeceríamos mucho si pudiera revisar y actualizar las calificaciones en el sistema lo antes posible, con el fin de evitar inconvenientes en el proceso de exámenes extraordinarios.
+      Para poder <b>arreglar</b> la captura de calificaciones, dé click en el siguiente enlace:
     </p>
-    <div id="container">
-      <table>
-        <tr>
-          <td>
-            <div>
-              <p style="color: #34495e; margin: 2px; padding-bottom:20px;font-size: 16px">
-                Para poder <b>arreglar</b> la captura de calificaciones da click en el siguiente enlace: <br><br>
-                <a href="http://127.0.0.1:4444/siae" style="display:inline-block;width:50%;font-size:16px;line-height:26px;padding:8px 0;text-align:center;text-decoration:none;color:#ffffff;background-color:#1e9fd9;border-radius:5px; font-weight:bold;"> Acceder al SIAE</a>
-              </p>
-              <img width="30%" style="display:inline-block;" src="https://www.dgae-siae.unam.mx/assets/images/escudo_siae_color.svg">
-              <img width="25%" style="display:inline-block; float:right" src="https://www.dgae-siae.unam.mx/assets/images/escudo_dgae_color.svg">
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <p>
+      <a href="http://127.0.0.1:4443/siae?email=@{model.email}"
+   style="display:inline-block;width:50%;font-size:16px;line-height:26px;padding:8px 0;text-align:center;text-decoration:none;color:#ffffff;background-color:#1e9fd9;border-radius:5px; font-weight:bold;">
+   Acceder al SIAE
+</a>
+    </p>
+    <p>
+      (Este enlace le permitirá ingresar sus credenciales y corregir la información.)
+    </p>
     <footer>
       <p>
-        Este mensaje va dirigido, de manera exclusiva, a su destinatario y puede contener información confidencial y sujeta al secreto profesional, cuya divulgación no está permitida por Ley. En caso de haber recibido este mensaje por error, le rogamos que de forma inmediata, nos lo comunique mediante correo electrónico remitido a nuestra atención y proceda a su eliminación, así como a la de cualquier documento adjunto al mismo.
+        Este mensaje va dirigido, de manera exclusiva, a su destinatario y puede contener información confidencial y sujeta al secreto profesional. Si no es el destinatario, por favor elimine este mensaje.
       </p>
     </footer>
     @{view('mails/signature')}
-  </body>
+</body>
 </html>

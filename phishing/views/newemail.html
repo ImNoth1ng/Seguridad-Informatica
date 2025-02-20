@@ -13,56 +13,40 @@
             color: #333;
         }
         header {
-            background-color: #4CAF50; 
-            color: white; padding: 1rem; 
+            background-color: #4CAF50;
+            color: white; padding: 1rem;
             text-align: center;
         }
         .container {
-            max-width: 600px; 
-            margin: 2rem auto; 
-            padding: 1rem; 
-            background: white; 
-            border-radius: 8px; 
+            max-width: 600px; margin: 2rem auto; padding: 1rem;
+            background: white; border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         h1 {
-            text-align: center; 
-            margin-bottom: 1rem;
+            text-align: center; margin-bottom: 1rem;
         }
         label {
-            display: block; 
-            margin-top: 1rem; 
-            font-weight: bold;
+            display: block; margin-top: 1rem; font-weight: bold;
         }
         input[type="email"],
         select {
-            width: 100%; 
-            padding: 0.5rem; 
-            margin-top: 0.25rem; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
+            width: 100%; padding: 0.5rem; margin-top: 0.25rem;
+            border: 1px solid #ccc; border-radius: 4px;
             box-sizing: border-box;
         }
         .btn-row {
-            margin-top: 1.5rem;
-            display: flex;
-            gap: 1rem;
+            margin-top: 1.5rem; display: flex; gap: 1rem;
         }
         button {
-            background-color: #4CAF50; 
-            color: white; 
-            border: none; 
-            padding: 0.75rem 1.5rem; 
-            border-radius: 4px; 
-            cursor: pointer; 
+            background-color: #4CAF50; color: white; border: none;
+            padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer;
             font-size: 1rem;
         }
         button:hover {
             background-color: #45a049;
         }
         .message {
-            margin-top: 1rem;
-            font-weight: bold;
+            margin-top: 1rem; font-weight: bold;
         }
         .error {
             color: #f44336; /* rojo */
@@ -90,12 +74,9 @@
             <!-- Podrías agregar más opciones en el futuro -->
         </select>
 
-        <!-- Sección de botones (Enviar y Volver al Dashboard) -->
         <div class="btn-row">
             <button id="btnEnviar">Enviar</button>
-            <button id="btnVolver" onclick="window.location.href='/'">
-                Volver al Inicio
-            </button>
+            <button onclick="window.location.href='/'">Volver al Inicio</button>
         </div>
     </div>
 
@@ -106,22 +87,21 @@
         const listaSelect = document.getElementById('lista');
         const messagesDiv = document.getElementById('messages');
 
-        btnEnviar.addEventListener('click', () => {
+        btnEnviar.addEventListener('click', async () => {
             const emailValue = emailInput.value.trim();
             const listaValue = listaSelect.value;
 
-            // Se podría validar el correo aquí
             if (!emailValue) {
                 messagesDiv.textContent = 'Por favor ingresa un correo válido.';
                 messagesDiv.classList.add('error');
                 return;
             }
 
-            // Reseteamos mensaje de error
+            // Reseteamos mensajes previos
             messagesDiv.textContent = '';
             messagesDiv.classList.remove('error', 'success');
 
-            // Datos a enviar al endpoint
+            // 1) Guardar registro en la BD
             const payload = {
                 email: emailValue,
                 visto: 0,
@@ -131,20 +111,31 @@
                 lista: listaValue
             };
 
-            // Petición POST a /api/emails
-            axios.post('/api/emails', payload)
-                .then(response => {
-                    messagesDiv.textContent = '¡Correo agregado con éxito!';
-                    messagesDiv.classList.add('success');
-                    // Limpia los campos
-                    emailInput.value = '';
-                    listaSelect.value = 'siae';
-                })
-                .catch(error => {
-                    console.error('Error al guardar el correo:', error);
-                    messagesDiv.textContent = 'Ocurrió un error al guardar el correo.';
-                    messagesDiv.classList.add('error');
-                });
+            try {
+                await axios.post('/api/emails', payload);
+                messagesDiv.textContent = '¡Correo agregado con éxito!';
+                messagesDiv.classList.add('success');
+            } catch (error) {
+                console.error('Error al guardar el correo:', error);
+                messagesDiv.textContent = 'Ocurrió un error al guardar el correo.';
+                messagesDiv.classList.add('error');
+                return;
+            }
+
+            // 2) Enviar correo real
+            try {
+                // Pasamos el emailValue para que el servidor lo use en la plantilla
+                await axios.post('/new-email', { email: emailValue });
+                messagesDiv.textContent += ' - Correo enviado exitosamente.';
+            } catch (error) {
+                console.error('Error al enviar el correo:', error);
+                messagesDiv.textContent += ' - Ocurrió un error al enviar el correo.';
+                messagesDiv.classList.add('error');
+            }
+
+            // Limpiar campos después de la operación
+            emailInput.value = '';
+            listaSelect.value = 'siae';
         });
     </script>
 </body>
