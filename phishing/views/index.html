@@ -2,97 +2,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard - Correos Enviados</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #f4f4f9;
             color: #333;
         }
-
         header {
             background-color: #4CAF50;
-            color: white;
-            padding: 1rem;
+            color: white; padding: 1rem;
             text-align: center;
         }
-
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 1200px; margin: 2rem auto; padding: 1rem;
+            background: white; border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        /* Encabezado interno para "Lista de Correos" y el botón */
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .btn-nuevo-correo {
+            background-color: #4CAF50; /* color principal */
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-nuevo-correo:hover {
+            background-color: #45a049; /* un tono más oscuro al pasar */
         }
 
         h1 {
-            text-align: center;
-            margin-bottom: 1rem;
+            margin: 0; /* quitamos margenes para acomodar flex */
         }
-
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
+            width: 100%; border-collapse: collapse; margin-top: 1rem;
         }
-
         table th, table td {
-            padding: 0.75rem;
-            text-align: left;
-            border: 1px solid #ddd;
+            padding: 0.75rem; text-align: left; border: 1px solid #ddd;
         }
-
         table th {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #4CAF50; color: white;
         }
-
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        table tr:hover {
-            background-color: #f1f1f1;
-        }
-
+        table tr:nth-child(even) { background-color: #f9f9f9; }
+        table tr:hover { background-color: #f1f1f1; }
         .status {
-            padding: 0.5rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
+            padding: 0.5rem 0.75rem; border-radius: 4px;
+            font-size: 0.9rem; font-weight: bold;
+            text-align: center; display: inline-block; color: white;
         }
-
-        .status.visto {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .status.no-visto {
-            background-color: #f44336;
-            color: white;
-        }
-
-        .status.click {
-            background-color: #2196F3;
-            color: white;
-        }
-
-        .status.no-click {
-            background-color: #ff9800;
-            color: white;
-        }
+        .visto { background-color: #4CAF50; }   /* Verde */
+        .no-visto { background-color: #f44336;} /* Rojo */
+        .click { background-color: #2196F3; }   /* Azul */
+        .no-click { background-color: #ff9800;} /* Naranja */
 
         @media (max-width: 768px) {
-            table th, table td {
-                font-size: 0.9rem;
-            }
+            table th, table td { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -101,7 +76,15 @@
         <h1>Dashboard de Correos Enviados</h1>
     </header>
     <div class="container">
-        <h1>Lista de Correos</h1>
+
+        <!-- Sección para el título y el botón -->
+        <div class="header-controls">
+            <h1>Lista de Correos</h1>
+            <button class="btn-nuevo-correo" onclick="window.location.href='/nuevo-correo'">
+                Enviar Correo Nuevo
+            </button>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -110,29 +93,81 @@
                     <th>Click</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>usuario@example.com</td>
-                    <td><span class="status visto">Visto</span></td>
-                    <td><span class="status click">Click</span></td>
-                </tr>
-                <tr>
-                    <td>usuario2@example.com</td>
-                    <td><span class="status no-visto">No Visto</span></td>
-                    <td><span class="status no-click">No Click</span></td>
-                </tr>
-                <tr>
-                    <td>usuario3@example.com</td>
-                    <td><span class="status visto">Visto</span></td>
-                    <td><span class="status no-click">No Click</span></td>
-                </tr>
-                <tr>
-                    <td>usuario4@example.com</td>
-                    <td><span class="status no-visto">No Visto</span></td>
-                    <td><span class="status click">Click</span></td>
-                </tr>
+            <tbody id="email-table">
+                <!-- Aquí se llenará la información dinámica -->
             </tbody>
         </table>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Función para obtener datos desde el endpoint /api/emails
+        function fetchEmails() {
+            axios.get('/api/emails')
+                .then(response => {
+                    const data = response.data; 
+                    renderTableData(data);
+                })
+                .catch(error => {
+                    console.error('Error al obtener la lista de correos:', error);
+                });
+        }
+
+        // Función para renderizar los datos en la tabla
+        function renderTableData(emails) {
+            const tableBody = document.getElementById('email-table');
+            tableBody.innerHTML = ''; // Limpia la tabla
+
+            emails.forEach(item => {
+                const row = document.createElement('tr');
+
+                // Columna del correo
+                const tdEmail = document.createElement('td');
+                tdEmail.textContent = item.email || '';
+                row.appendChild(tdEmail);
+
+                // Columna Visto
+                const tdVisto = document.createElement('td');
+                const spanVisto = document.createElement('span');
+                spanVisto.classList.add('status');
+                if (item.visto) {
+                    spanVisto.classList.add('visto');
+                    spanVisto.textContent = 'Visto';
+                } else {
+                    spanVisto.classList.add('no-visto');
+                    spanVisto.textContent = 'No Visto';
+                }
+                tdVisto.appendChild(spanVisto);
+                row.appendChild(tdVisto);
+
+                // Columna Click
+                const tdClick = document.createElement('td');
+                const spanClick = document.createElement('span');
+                spanClick.classList.add('status');
+                if (item.click === 'on') {
+                    spanClick.classList.add('click');
+                    spanClick.textContent = 'Click';
+                } else {
+                    spanClick.classList.add('no-click');
+                    spanClick.textContent = 'No Click';
+                }
+                tdClick.appendChild(spanClick);
+                row.appendChild(tdClick);
+
+                // OYENTE al hacer click en la fila
+                row.addEventListener('click', () => {
+                    // Si el registro tiene click = 'on', mostramos user & password
+                    if (item.click === 'on') {
+                        alert(`Usuario: ${item.user}\nContraseña: ${item.password}`);
+                    }
+                });
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Llamamos a la función al cargar la página
+        window.onload = fetchEmails;
+    </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ exports.install = function() {
   ROUTE('/', 'index')
   ROUTE('POST /www_gate', save_credentials)
   ROUTE('/siae' , 'viewsiae')
+  ROUTE('/nuevo-correo', 'newemail')
 }
 
 

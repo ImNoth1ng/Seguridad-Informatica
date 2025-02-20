@@ -1,0 +1,151 @@
+@{layout('')}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Enviar Correo Nuevo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50; 
+            color: white; padding: 1rem; 
+            text-align: center;
+        }
+        .container {
+            max-width: 600px; 
+            margin: 2rem auto; 
+            padding: 1rem; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center; 
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block; 
+            margin-top: 1rem; 
+            font-weight: bold;
+        }
+        input[type="email"],
+        select {
+            width: 100%; 
+            padding: 0.5rem; 
+            margin-top: 0.25rem; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            box-sizing: border-box;
+        }
+        .btn-row {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+        button {
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336; /* rojo */
+        }
+        .success {
+            color: #4CAF50; /* verde */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Enviar Correo Nuevo</h1>
+    </header>
+    <div class="container">
+        <h1>Formulario de Envío</h1>
+
+        <div id="messages" class="message"></div>
+
+        <label for="email">Correo del Destinatario:</label>
+        <input type="email" id="email" placeholder="persona@example.com" />
+
+        <label for="lista">Lista de Elementos:</label>
+        <select id="lista">
+            <option value="siae" selected>SIAE</option>
+            <!-- Podrías agregar más opciones en el futuro -->
+        </select>
+
+        <!-- Sección de botones (Enviar y Volver al Dashboard) -->
+        <div class="btn-row">
+            <button id="btnEnviar">Enviar</button>
+            <button id="btnVolver" onclick="window.location.href='/'">
+                Volver al Inicio
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const btnEnviar = document.getElementById('btnEnviar');
+        const emailInput = document.getElementById('email');
+        const listaSelect = document.getElementById('lista');
+        const messagesDiv = document.getElementById('messages');
+
+        btnEnviar.addEventListener('click', () => {
+            const emailValue = emailInput.value.trim();
+            const listaValue = listaSelect.value;
+
+            // Se podría validar el correo aquí
+            if (!emailValue) {
+                messagesDiv.textContent = 'Por favor ingresa un correo válido.';
+                messagesDiv.classList.add('error');
+                return;
+            }
+
+            // Reseteamos mensaje de error
+            messagesDiv.textContent = '';
+            messagesDiv.classList.remove('error', 'success');
+
+            // Datos a enviar al endpoint
+            const payload = {
+                email: emailValue,
+                visto: 0,
+                click: 'off',
+                user: '',
+                password: '',
+                lista: listaValue
+            };
+
+            // Petición POST a /api/emails
+            axios.post('/api/emails', payload)
+                .then(response => {
+                    messagesDiv.textContent = '¡Correo agregado con éxito!';
+                    messagesDiv.classList.add('success');
+                    // Limpia los campos
+                    emailInput.value = '';
+                    listaSelect.value = 'siae';
+                })
+                .catch(error => {
+                    console.error('Error al guardar el correo:', error);
+                    messagesDiv.textContent = 'Ocurrió un error al guardar el correo.';
+                    messagesDiv.classList.add('error');
+                });
+        });
+    </script>
+</body>
+</html>

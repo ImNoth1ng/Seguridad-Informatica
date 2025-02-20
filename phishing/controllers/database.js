@@ -1,4 +1,4 @@
-// En cualquier controlador o archivo de inicialización
+/*// En cualquier controlador o archivo de inicialización
 const db = require('../models/database');
 
 // Crear tabla de ejemplo
@@ -15,4 +15,4 @@ db.insert('emails', {
     visto: true,
     click: false,
     created: new Date()
-});
+});*/

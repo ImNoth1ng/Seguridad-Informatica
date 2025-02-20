@@ -1,17 +1,48 @@
+const pool = require('../models/database.js');
+
 exports.install = function() {
-  ROUTE('POST /new-email', send_email);
+    // GET /api/emails -> lista los correos
+    ROUTE('/api/emails', getEmails, ['GET']);
+    // POST /api/emails -> agrega un correo nuevo
+    ROUTE('/api/emails', addEmail, ['POST']);
+};
+
+function getEmails() {
+    const self = this;
+    const query = `SELECT email, visto, click, user, password FROM correos`;
+    pool.query(query, (err, rows) => {
+        if (err) {
+            console.error('Error al consultar correos:', err);
+            return self.throw500(err);
+        }
+        self.json(rows);
+    });
 }
 
-async function send_email(){
-  let self = this;
-  let obj = {
-    email: 'fernandopalmaq6@aragon.unam.mx',
-    subject: 'Revisión de Falla en el SIAE - Actualización de Calificaciones',
-    route: 'mails/siae',
-    from: CONF.mail_address_from
-  };
-  MAIL(obj.email, obj.subject, obj.route, obj, (err, res) => {
-    if (err) console.error(err);
-    self.success();
-  }).from(obj.from)
+function addEmail() {
+    const self = this;
+    const data = self.body; 
+    // data.email, data.visto, data.click, data.user, data.password
+
+    const query = `
+        INSERT INTO correos (email, visto, click, user, password)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+    // Ajusta si necesitas guardar "lista" en algún campo 
+    // (se envía en data.lista, pero aquí no se está usando)
+
+    pool.query(query, [ 
+        data.email || '', 
+        data.visto || 0, 
+        data.click || 'off', 
+        data.user || '', 
+        data.password || '' 
+    ], 
+    (err, result) => {
+        if (err) {
+            console.error('Error al insertar correo:', err);
+            return self.throw500(err);
+        }
+        self.json({ success: true, insertedId: result.insertId });
+    });
 }

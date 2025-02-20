@@ -1,23 +1,23 @@
 {
-	"pid": 132950,
-	"date": "2025-02-16T01:38:00.878Z",
+	"pid": 9344,
+	"date": "2025-02-20T18:00:02.319Z",
 	"port": 4444,
 	"ip": "0.0.0.0",
 	"stats": [
 		{
 			"id": null,
 			"version": {
-				"node": "v22.14.0",
+				"node": "v20.18.2",
 				"total": "4",
 				"build": 4098,
 				"app": "1.0.0"
 			},
-			"pid": 132950,
+			"pid": 9344,
 			"thread": "",
 			"mode": "debug",
 			"overload": 0,
-			"date": "2025-02-16T01:39:00.906Z",
-			"memory": 8.06,
+			"date": "2025-02-20T18:04:02.408Z",
+			"memory": 10.67,
 			"rm": 0,
 			"fm": 0,
 			"wm": 0,
@@ -32,15 +32,16 @@
 			"dbrm": 0,
 			"dbwm": 0,
 			"usage": 0,
-			"requests": 0,
+			"requests": 3,
 			"pending": 0,
 			"external": 0,
-			"errors": 0,
+			"errors": 1,
 			"timeouts": 0,
 			"online": 0,
-			"uptime": 2,
+			"uptime": 5,
 			"download": 0,
-			"upload": 0,
+			"upload": 0.002,
+			"lasterror": "2025-02-20T18:00:40.915Z emails - Error: Access denied for user 'root'@'localhost'\n    at Packet.asError (/home/nothing/Documentos/Escuela/SEGI/Seguridad-Informatica/phishing/node_modules/mysql2/lib/packets/packet.js:740:17)\n    at ClientHandshake.execute (/home/nothing/Documentos/Escuela/SEGI/Seguridad-Informatica/phishing/node_modules/mysql2/lib/commands/command.js:29:26)\n    at PoolConnection.handlePacket (/home/nothing/Documentos/Escuela/SEGI/Seguridad-Informatica/phishing/node_modules/mysql2/lib/base/connection.js:475:34)\n    at PacketParser.onPacket (/home/nothing/Documentos/Escuela/SEGI/Seguridad-Informatica/phishing/node_modules/mysql2/lib/base/connection.js:93:12)\n    at PacketParser.executeStart (/home/nothing/Documentos/Escuela/SEGI/Seguridad-Informatica/phishing/node_modules/mysql2/lib/packet_parser.js:75:16)\n    at Socket.<anonymous> (/home/nothing/Documentos/Escuela/SEGI/Seguridad-Informatica/phishing/node_modules/mysql2/lib/base/connection.js:100:25)\n    at Socket.emit (node:events:518:28)\n    at addChunk (node:internal/streams/readable:561:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)\n    at Readable.push (node:internal/streams/readable:392:5)",
 			"status": []
 		}
 	]
